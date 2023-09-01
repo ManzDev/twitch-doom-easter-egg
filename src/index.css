@@ -1,0 +1,48 @@
+/* El overflow hay que añadirlo desde Javascript */
+
+body {
+  overflow: hidden;
+
+  min-height: 100vh;
+  margin: 0;
+
+  background: #111;
+  background-image: url("https://lenguajejs.com/assets/header-js.webp");
+}
+
+h1 {
+  font-family: Jost;
+  font-size: 72px;
+  color: #fff;
+  text-align: center;
+}
+
+p {
+  font-family: Jost;
+  font-size: 42px;
+  color: #fff;
+  text-align: center;
+}
+
+/*
+.page-container {
+  transform-style: preserve-3d;
+  perspective: 800px;
+}
+
+.page {
+  position: relative;
+  z-index: -1;
+  transform:
+    translateX(var(--x, 0))
+    translateZ(var(--z, 0))
+    rotateY(var(--ry, 0));
+  margin: 8rem;
+}
+*/
+
+doom-screen {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
