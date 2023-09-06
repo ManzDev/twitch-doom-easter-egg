@@ -46,7 +46,7 @@ class HealthStatus extends HTMLElement {
     damageSound.currentTime = 0;
     damageSound.play();
 
-    const damage = 1 + ~~(Math.random() * 5);
+    const damage = 5 + ~~(Math.random() * 25);
     const event = new CustomEvent("DAMAGE", { composed: true, bubbles: true, detail: { damage } });
     this.dispatchEvent(event);
   }

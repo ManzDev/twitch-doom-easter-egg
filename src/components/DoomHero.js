@@ -23,9 +23,10 @@ class DoomHero extends HTMLElement {
       :host([life="god"]) .container { background-position-y: -120px; }
       :host([life="medium"]) .container { background-position-y: -240px; }
       :host([life="low"]) .container { background-position-y: -360px; }
+      :host([life="dead"]) .container { background-position: -380px -360px!important; }
 
       :host(.shoot) .container {
-        background-position-x: 95px!important;
+        background-position-x: 190px!important;
       }
 
       @keyframes view {

@@ -1,6 +1,10 @@
 /* El overflow hay que añadirlo desde Javascript */
 
 body {
+  margin: 0;
+}
+
+.page {
   overflow: hidden;
 
   min-height: 100vh;

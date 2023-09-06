@@ -1,12 +1,15 @@
 import "@/components/DoomHero.js";
 import "@/components/DoomWeapon.js";
+import "@/components/DoomBlood.js";
 import "@/components/BitmapFont.js";
 import "@/components/HealthStatus.js";
+import { controlWeapon } from "@/modules/controlWeapon.js";
 
 const WIDTH = globalThis.innerWidth;
 const HEIGHT = globalThis.innerHeight;
-const INITIAL_AMMO = 300 + ~~(Math.random() * 242);
+const INITIAL_AMMO = 25 + ~~(Math.random() * 100);
 const INITIAL_HEALTH = 100;
+const music = new Audio("music/doom-theme.ogg");
 
 class DoomScreen extends HTMLElement {
   constructor() {
@@ -102,15 +105,23 @@ class DoomScreen extends HTMLElement {
   connectedCallback() {
     this.render();
     const game = this.shadowRoot.querySelector(".game");
-    const canvas = this.shadowRoot.querySelector("canvas");
-    canvas.width = WIDTH;
-    canvas.height = HEIGHT;
 
     game.addEventListener("mousedown", () => this.burst());
     game.addEventListener("mouseup", () => this.unburst());
-    const music = new Audio("music/doom-theme.ogg");
+
+    document.addEventListener("keydown", ({ key }) => key === "Escape" && this.kill());
     music.play();
-    setInterval(() => this.generateDamage(), 5000);
+    this.hitDamage();
+
+    this.canvas = this.shadowRoot.querySelector("canvas");
+    this.canvas.width = WIDTH;
+    this.canvas.height = HEIGHT;
+
+    controlWeapon();
+  }
+
+  hitDamage() {
+    this.damageTimer = setInterval(() => this.generateDamage(), 2000);
     document.addEventListener("DAMAGE", (ev) => {
       const { damage } = ev.detail;
       console.log({ damage, health: this.health });
@@ -120,12 +131,18 @@ class DoomScreen extends HTMLElement {
   }
 
   generateDamage() {
-    const n = ~~(Math.random() * 5);
+    const n = ~~(Math.random() * 6);
 
     if (n === 0) {
       const healthStatus = this.shadowRoot.querySelector("health-status");
       healthStatus.damage();
     }
+  }
+
+  exit() {
+    clearInterval(this.damageTimer);
+    this.remove();
+    music.pause();
   }
 
   burst() {
@@ -181,7 +198,13 @@ class DoomScreen extends HTMLElement {
   }
 
   kill() {
-
+    const font = this.shadowRoot.querySelector(".health bitmap-font");
+    font.updateText("0%");
+    const doomHero = this.shadowRoot.querySelector("doom-hero");
+    doomHero.setFace("dead");
+    const doomBlood = document.createElement("doom-blood");
+    const container = this.shadowRoot.querySelector(".container");
+    container.insertAdjacentElement("afterend", doomBlood);
   }
 
   updateAmmo() {
@@ -217,7 +240,7 @@ class DoomScreen extends HTMLElement {
           </div>
           <doom-hero life="high"></doom-hero>
           <div class="armor">
-            <bitmap-font text="100%"></bitmap-font>
+            <bitmap-font text="0%"></bitmap-font>
           </div>
           <div class="items"></div>
           <div class="stats"></div>
