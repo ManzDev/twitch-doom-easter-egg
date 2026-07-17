@@ -17,14 +17,19 @@ const enableBackScreen = () => {
   document.body.style.background = "#000";
 };
 
-let x = 0;
-let page;
+const page = document.querySelector(".page");
+
+export const getScale = () => {
+  const pageWidth = page.getBoundingClientRect().width;
+  return pageWidth / page.offsetWidth;
+};
+
+export let x = 0;
 let animation;
 const KEYS = ["A", "W", "S", "D"];
 
 export const controlWeapon = () => {
   enableBackScreen();
-  page = document.querySelector(".page");
   animation = page.animate(keyframes, options);
   animation.pause();
 
@@ -43,8 +48,7 @@ export const controlWeapon = () => {
 };
 
 const checkKey = (key) => {
-  const pageWidth = page.getBoundingClientRect().width;
-  const scale = pageWidth / page.offsetWidth;
+  const scale = getScale();
 
   switch (key) {
   case "ARROWUP":

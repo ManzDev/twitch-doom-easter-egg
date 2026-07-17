@@ -4,6 +4,7 @@ import "@/components/DoomBlood.js";
 import "@/components/BitmapFont.js";
 import "@/components/HealthStatus.js";
 import { controlWeapon } from "@/modules/controlWeapon.js";
+import "./CanvasScreen.js";
 
 const WIDTH = globalThis.innerWidth;
 const HEIGHT = globalThis.innerHeight;
@@ -93,6 +94,10 @@ class DoomScreen extends HTMLElement {
         cursor: none;
       }
 
+      canvas-screen {
+        pointer-events: none;
+      }
+
       doom-weapon {
         position: absolute;
         left: calc(50% - 115px);
@@ -105,6 +110,7 @@ class DoomScreen extends HTMLElement {
   connectedCallback() {
     this.render();
     const game = this.shadowRoot.querySelector(".game");
+    this.screen = this.shadowRoot.querySelector("canvas-screen");
 
     game.addEventListener("mousedown", () => this.burst());
     game.addEventListener("mouseup", () => this.unburst());
@@ -164,6 +170,7 @@ class DoomScreen extends HTMLElement {
     if (this.isShooting && this.ammo > 0) {
       this.ammo--;
       this.updateAmmo();
+      this.screen.shoot();
     }
     if (this.isShooting && this.ammo === 0 && this.outAmmo === false) {
       this.outAmmo = true;
@@ -246,7 +253,8 @@ class DoomScreen extends HTMLElement {
           <div class="stats"></div>
         </div>
       </div>
-    </div>`;
+    </div>
+    <canvas-screen></canvas-screen>`;
   }
 }
 

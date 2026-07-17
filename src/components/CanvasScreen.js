@@ -13,6 +13,9 @@ class CanvasScreen extends HTMLElement {
       }
 
       canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
       }
     `;
   }
